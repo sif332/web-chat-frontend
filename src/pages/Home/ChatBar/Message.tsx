@@ -1,4 +1,4 @@
-import { IMessage } from "../../../data/direactMessageList";
+import { IMessage } from "../../../models";
 
 interface IProp {
   username: string;
@@ -10,6 +10,7 @@ export default function Message({ username, message }: IProp) {
   const date = time.toDateString();
   const hours = time.getHours().toString().padStart(2, "0");
   const minutes = time.getMinutes().toString().padStart(2, "0");
+
   return username === message.username ? (
     <div className="flex w-full flex-row-reverse p-4">
       <img
@@ -19,8 +20,7 @@ export default function Message({ username, message }: IProp) {
       />
       <div className="flex flex-col items-end">
         <p className="mb-2 w-[70%] break-words bg-[#383838] p-4 shadow-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          {message.message}
         </p>
         <p className="font-w text-sm">{`${hours}:${minutes} ${date}`}</p>
       </div>
@@ -34,8 +34,7 @@ export default function Message({ username, message }: IProp) {
       />
       <div className="flex flex-col">
         <p className="mb-2 w-[70%] break-words bg-[#383838] p-4 shadow-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          {message.message}
         </p>
         <p className="font-w text-sm">{`${hours}:${minutes} ${date}`}</p>
       </div>
