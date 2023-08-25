@@ -9,12 +9,9 @@ export interface IUser {
   username: string;
 }
 
-export interface IRoomDatabase {
-  users: {
-    userID: string;
-    username: string;
-    rooms: IRoom[];
-  }[];
+export interface IUserRoom {
+  userID: string;
+  rooms: string[];
 }
 
 export interface IMessage {
