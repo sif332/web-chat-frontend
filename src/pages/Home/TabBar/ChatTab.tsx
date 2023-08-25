@@ -19,7 +19,11 @@ export default function ChatTab() {
   }
   return (
     <div className="flex w-full flex-col">
-      <Modal isShow={isShow} width={300} height={300}>
+      <Modal
+        isShow={isShow}
+        tailwindWidth={"w-[300px]"}
+        tailwindHeight={"h-[300px]"}
+      >
         <AddRoomModal
           onCreate={createRoom}
           onJoin={joinRoom}

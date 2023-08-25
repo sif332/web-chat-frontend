@@ -2,12 +2,12 @@ import React from "react";
 
 interface IProps {
   isShow: boolean;
-  width: number;
-  height: number;
+  tailwindWidth: string;
+  tailwindHeight: string;
   children: React.ReactNode;
 }
 
-export default function Modal({ isShow, width, height, children }: IProps) {
+export default function Modal({ isShow, tailwindWidth, tailwindHeight, children }: IProps) {
   return (
     <div
       className={`${
@@ -15,7 +15,7 @@ export default function Modal({ isShow, width, height, children }: IProps) {
       } fixed left-0 top-0  flex h-screen w-screen items-center justify-center bg-gray-600 bg-opacity-30 backdrop-blur-lg backdrop-filter transition-opacity`}
     >
       <div
-        className={`relative h-[${height.toString()}px]  w-[${width.toString()}px]  bg-[#262626]`}
+        className={`relative ${tailwindWidth}  ${tailwindHeight}  bg-[#262626]`}
       >
         {children}
       </div>

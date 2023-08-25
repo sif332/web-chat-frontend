@@ -32,7 +32,11 @@ export default function Home() {
 
   return (
     <div className="flex h-screen w-full text-[#b5b5b4]">
-      <Modal isShow={isShow} width={300} height={300}>
+      <Modal
+        isShow={isShow}
+        tailwindWidth={"w-[300px]"}
+        tailwindHeight={"h-[300px]"}
+      >
         <Login
           onLogin={onLogin}
           onClose={() => {
