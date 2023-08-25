@@ -7,7 +7,7 @@ interface IProp {
   roomList: IRoom[];
 }
 
-export default function DireactMessageRoomList({ roomList }: IProp) {
+export default function DireactMessage({ roomList }: IProp) {
   const currentRoom = useSelector((state: RootState) => state.room.currentRoom);
   const dispatch = useDispatch();
   return (

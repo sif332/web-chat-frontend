@@ -13,12 +13,12 @@ export default function Icons({
   hoverIcon = icon,
   onClick,
 }: IProps) {
-  const [isHover, setIsHover] = useState(false);
+  const [isHover, setHover] = useState(false);
   return (
     <div
       className="p-2 hover:cursor-pointer"
-      onMouseOver={() => setIsHover(true)}
-      onMouseOut={() => setIsHover(false)}
+      onMouseOver={() => setHover(true)}
+      onMouseOut={() => setHover(false)}
       onClick={onClick}
     >
       <img

@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../models";
-import { getUserByID } from "../services/userDatabase";
 
-const initialState: IUser = getUserByID("user001")!;
+const initialState: IUser = {
+  userID: "",
+  username: "",
+};
 
 const userSlice = createSlice({
   name: "user",

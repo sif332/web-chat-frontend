@@ -1,6 +1,7 @@
 import demoProfile from "../assets/icons/user.png";
 import { IMessage } from "../models";
 import { LoremIpsum } from "lorem-ipsum";
+import { getUserPicByID } from "./userDatabase";
 
 function messageGenerator(userID: string, username: string) {
   const lorem = new LoremIpsum({
@@ -19,17 +20,25 @@ function messageGenerator(userID: string, username: string) {
     {
       userID: userID,
       username: username,
-      profilePic: demoProfile,
+      profilePic: getUserPicByID(userID) ? getUserPicByID(userID) : demoProfile,
       time: currentTime.toISOString(),
       message: message,
     },
   ];
 
   for (let i = 0; i < 9; i++) {
+    let newUserID = userID;
+    let newUsername = username;
+    if (i % 2 === 0) {
+      newUserID = "user002";
+      newUsername = "Seletinar SK";
+    }
     direactMessageList.push({
-      userID: i % 2 === 0 ? "user002" : userID,
-      username: i % 2 === 0 ? "Seletinar SK" : username,
-      profilePic: demoProfile,
+      userID: newUserID,
+      username: newUsername,
+      profilePic: getUserPicByID(newUserID)
+        ? getUserPicByID(newUserID)
+        : demoProfile,
       time: new Date(
         currentTime.getTime() + 480 * (i + 1) * 60 * 1000,
       ).toISOString(),

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IRoom } from "../models";
 
-const initialRoom = {
+const initialRoom: IRoom = {
   roomID: "",
   roomName: "",
   roomPic: "",
@@ -21,8 +21,11 @@ const chatRoomSlice = createSlice({
         state.isShowChatBar = true;
       }
     },
+    setShowChatBar(state, action: PayloadAction<boolean>) {
+      state.isShowChatBar = false;
+    },
   },
 });
 
-export const { setRoom } = chatRoomSlice.actions;
+export const { setRoom, setShowChatBar } = chatRoomSlice.actions;
 export default chatRoomSlice;

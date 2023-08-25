@@ -14,7 +14,7 @@ export default function Message({ username, message }: IProp) {
   return username === message.username ? (
     <div className="flex w-full flex-row-reverse p-4">
       <img
-        className="ml-2 h-[28px] w-[28px]"
+        className="ml-2 h-[32px] w-[32px] rounded-full"
         src={message.profilePic}
         alt="DemonUser"
       />
@@ -28,7 +28,7 @@ export default function Message({ username, message }: IProp) {
   ) : (
     <div className="flex w-full p-4">
       <img
-        className="mr-2 h-[28px] w-[28px]"
+        className="mr-2 h-[32px] w-[32px] rounded-full"
         src={message.profilePic}
         alt="DemonUser"
       />

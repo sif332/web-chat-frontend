@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ETabBar, setTabBar } from "../../redux/tabBarSlice";
 import { RootState } from "../../redux";
 
-import Icons from "../../components/Icons";
+import Icons from "../../components/Icon";
 import chatWhite from "../../assets/icons/chat-white.png";
 import chatRed from "../../assets/icons/chat-red.png";
 import friendsWhite from "../../assets/icons/friend-white.png";
