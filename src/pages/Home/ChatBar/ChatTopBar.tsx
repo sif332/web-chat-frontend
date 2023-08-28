@@ -1,9 +1,9 @@
-import { IRoom } from "../../../models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { regular, solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setRoom, setShowChatBar } from "../../../redux/chatRoomSlice";
+import { IRoom } from "../../../types";
 
 interface IProps {
   room: IRoom;

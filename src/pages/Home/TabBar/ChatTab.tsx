@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getRoomListByUserID } from "../../../services/roomDatabase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
@@ -7,15 +7,57 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux";
 import Modal from "../../../components/Modal";
 import AddRoomModal from "./AddRoomModal";
+import { IRoom } from "../../../types";
+import axios from "axios";
 
 export default function ChatTab() {
   const user = useSelector((state: RootState) => state.user);
   const [isShow, setShow] = useState(false);
+  const [roomList, setRoomList] = useState<IRoom[]>([]);
+
+  useEffect(() => {
+    if (user.userID) {
+      getRoomListByUserID(user.userID).then((rooms) => {
+        setRoomList(rooms);
+      });
+    }
+  }, [user.userID]);
+
   function joinRoom(roomID: string) {
-    console.log("roomID", roomID);
+    const token = localStorage.getItem("token");
+    axios({
+      method: "post",
+      url: `http://localhost:4000/room/join?roomID=${roomID}`,
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => console.log(res))
+      .catch((error) => {
+        if (error.response) {
+          console.error("Server Error:", error.response.status);
+        } else if (error.request) {
+          console.error("Network Error:", error.request);
+        } else {
+          console.error("Error:", error.message);
+        }
+      });
   }
   function createRoom(roomName: string) {
-    console.log("roomName", roomName);
+    const token = localStorage.getItem("token");
+    axios({
+      method: "post",
+      url: `http://localhost:4000/room/create?roomName=${roomName}`,
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => console.log(res))
+      .catch((error) => {
+        if (error.response) {
+          console.error("Server Error:", error.response.status);
+        } else if (error.request) {
+          console.error("Network Error:", error.request);
+        } else {
+          console.error("Error:", error.message);
+        }
+      });
   }
   return (
     <div className="flex w-full flex-col">
@@ -44,12 +86,12 @@ export default function ChatTab() {
           <FontAwesomeIcon className="text-white" icon={solid("plus")} />
         </button>
       </div>
-      <div>
-        <p className=" p-4 text-sm font-light">Direct Message</p>
-        {user.userID && (
-          <DireactMessage roomList={getRoomListByUserID(user.userID)!} />
-        )}
-      </div>
+      {user.userID && (
+        <div>
+          <p className=" p-4 text-sm font-light">Direct Message</p>
+          <DireactMessage roomList={roomList} />
+        </div>
+      )}
     </div>
   );
 }

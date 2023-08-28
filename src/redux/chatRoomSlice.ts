@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IRoom } from "../models";
+import { IRoom } from "../types";
 
 const initialRoom: IRoom = {
   roomID: "",

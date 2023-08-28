@@ -1,17 +1,17 @@
-import { IMessage } from "../../../models";
+import { IMessage } from "../../../types";
 
 interface IProp {
-  username: string;
+  userID: string;
   message: IMessage;
 }
 
-export default function Message({ username, message }: IProp) {
+export default function Message({ userID, message }: IProp) {
   const time = new Date(message.time);
   const date = time.toDateString();
   const hours = time.getHours().toString().padStart(2, "0");
   const minutes = time.getMinutes().toString().padStart(2, "0");
 
-  return username === message.username ? (
+  return userID === message.userID ? (
     <div className="flex w-full flex-row-reverse p-4">
       <img
         className="ml-2 h-[32px] w-[32px] rounded-full"

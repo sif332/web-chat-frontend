@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../models";
+import { IUser } from "../types";
 
 const initialState: IUser = {
   userID: "",
   username: "",
+  displayName: "",
 };
 
 const userSlice = createSlice({
@@ -14,6 +15,7 @@ const userSlice = createSlice({
       const newUser = action.payload;
       state.userID = newUser.userID;
       state.username = newUser.username;
+      state.displayName = newUser.displayName;
     },
   },
 });
