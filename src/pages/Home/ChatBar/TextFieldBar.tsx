@@ -14,6 +14,12 @@ export default function TextFieldBar({ onSend }: IProps) {
         className="mr-4 grow bg-[#333333] p-4 focus:outline-0"
         placeholder="Type your message..."
         ref={inputMessage}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" && inputMessage.current?.value) {
+            onSend(inputMessage.current.value);
+            inputMessage.current.value = "";
+          }
+        }}
       />
       <button
         onClick={() => {

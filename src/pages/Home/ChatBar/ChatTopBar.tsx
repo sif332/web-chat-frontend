@@ -23,7 +23,7 @@ export default function ChatTopBar({ room }: IProps) {
           />
           <div className="flex flex-col">
             <h5>{room.roomName}</h5>
-            <p className="text-sm">Active</p>
+            <p className="text-sm">RoomID: {room.roomID}</p>
           </div>
         </div>
         <FontAwesomeIcon

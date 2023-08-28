@@ -2,7 +2,14 @@ import React, { useState, useRef } from "react";
 
 interface IProps {
   onLogin: (username: string, password: string) => void;
-  onRegister: (username: string, password: string, displayName: string) => void;
+  onRegister: (
+    username: string,
+    password: string,
+    displayName: string,
+    successRegisterHandle: () => void,
+  ) => void;
+  onError: boolean;
+  onLoading: boolean;
 }
 
 enum EButton {
@@ -10,16 +17,21 @@ enum EButton {
   Login,
 }
 
-export default function Login({ onLogin, onRegister }: IProps) {
+export default function Login({
+  onLogin,
+  onRegister,
+  onError,
+  onLoading,
+}: IProps) {
   const [isSelected, setSelected] = useState<EButton | null>(null);
   const inputUsername = useRef<HTMLInputElement>(null);
   const inputPassword = useRef<HTMLInputElement>(null);
   const inputDisplayName = useRef<HTMLInputElement>(null);
 
-  function resetState() {
+  function successRegisterHandle() {
     inputUsername.current!.value = "";
     inputPassword.current!.value = "";
-    setSelected(null);
+    setSelected(EButton.Login);
   }
 
   return (
@@ -54,14 +66,20 @@ export default function Login({ onLogin, onRegister }: IProps) {
           placeholder="Display Name"
           ref={inputDisplayName}
         />
+        <p className={`px-2 text-center text-red-500 ${!onError && "hidden"}`}>
+          {isSelected === EButton.Login
+            ? "Incorrect username or password"
+            : "Incorrect input"}
+        </p>
       </div>
 
       <button
         className={`absolute top-1/2 h-[50px] w-[120px] bg-red-500 p-2 text-white transition-transform duration-300 ease-out ${
           isSelected === EButton.Register
-            ? "translate-y-[200%]"
+            ? "translate-y-[220%]"
             : "translate-y-[-100%]"
         } ${isSelected === EButton.Login && "hidden"}`}
+        disabled={onLoading}
         onClick={() => {
           if (isSelected === EButton.Register) {
             if (
@@ -73,15 +91,16 @@ export default function Login({ onLogin, onRegister }: IProps) {
                 inputUsername.current.value,
                 inputPassword.current.value,
                 inputDisplayName.current.value,
+                successRegisterHandle,
               );
-              resetState();
+              // resetState();
               return;
             }
           }
           setSelected(EButton.Register);
         }}
       >
-        Register
+        {onLoading ? "Loading..." : "Register"}
       </button>
       <button
         className={`absolute top-1/2 h-[50px] w-[120px] bg-green-500 p-2 text-white transition-transform duration-300 ease-out ${
@@ -89,18 +108,19 @@ export default function Login({ onLogin, onRegister }: IProps) {
             ? "translate-y-[130%]"
             : "translate-y-[50%]"
         } ${isSelected === EButton.Register && "hidden"} `}
+        disabled={onLoading}
         onClick={() => {
           if (isSelected === EButton.Login) {
             if (inputUsername.current?.value && inputPassword.current?.value) {
               onLogin(inputUsername.current.value, inputPassword.current.value);
-              resetState();
+              // resetState();
               return;
             }
           }
           setSelected(EButton.Login);
         }}
       >
-        Login
+        {onLoading ? "Loading..." : "Login"}
       </button>
     </div>
   );

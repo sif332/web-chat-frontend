@@ -18,8 +18,9 @@ export default function Message({ userID, message }: IProp) {
         src={message.profilePic}
         alt="DemonUser"
       />
-      <div className="flex flex-col items-end">
-        <p className="mb-2 w-[70%] break-words bg-[#383838] p-4 shadow-md">
+      <div className="flex max-w-[70%] flex-col items-end">
+        <p className="font-w text-sm">{message.username}</p>
+        <p className="mb-2 break-words bg-[#383838] p-4 shadow-md">
           {message.message}
         </p>
         <p className="font-w text-sm">{`${hours}:${minutes} ${date}`}</p>
@@ -32,8 +33,9 @@ export default function Message({ userID, message }: IProp) {
         src={message.profilePic}
         alt="DemonUser"
       />
-      <div className="flex flex-col">
-        <p className="mb-2 w-[70%] break-words bg-[#383838] p-4 shadow-md">
+      <div className="flex max-w-[70%] flex-col">
+        <p className="font-w text-sm">{message.username}</p>
+        <p className="mb-2 break-words bg-[#383838] p-4 shadow-md">
           {message.message}
         </p>
         <p className="font-w text-sm">{`${hours}:${minutes} ${date}`}</p>

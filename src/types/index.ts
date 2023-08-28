@@ -17,6 +17,7 @@ export interface IUserRoom {
 
 export interface IMessage {
   userID: string;
+  username: string;
   profilePic: string;
   time: string;
   message: string;
@@ -48,7 +49,14 @@ export interface IGetRoomListByUserID {
 
 export interface IGetMessageByRoomID {
   user_id: string;
+  username: string;
   room_id: string;
   message: string;
   created_at: string;
+}
+
+export interface IFetchUser {
+  userID: string;
+  username: string;
+  displayName: string;
 }

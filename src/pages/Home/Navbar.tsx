@@ -10,7 +10,7 @@ import friendsWhite from "../../assets/icons/friend-white.png";
 import friendsRed from "../../assets/icons/friend-red.png";
 import settingWhite from "../../assets/icons/setting-white.svg";
 import settingRed from "../../assets/icons/setting-red.svg";
-import { getUserPicByID } from "../../services/userDatabase";
+import { getUserPicByID } from "../../services/user.api";
 
 export default function Navbar() {
   const currentUser = useSelector((state: RootState) => state.user);

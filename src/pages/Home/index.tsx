@@ -7,23 +7,22 @@ import Login from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import { setUser } from "../../redux/userSlice";
-import axios, { AxiosError } from "axios";
-import { ILogin } from "../../types";
+import { AxiosError } from "axios";
+import { sendLoginCredentials, sendRegistrationCredentials, fetchUser } from "../../services/user.api";
 
 export default function Home() {
   const user = useSelector((state: RootState) => state.user);
   const currentRoom = useSelector((state: RootState) => state.room.currentRoom);
   const dispatch = useDispatch();
-  const [isShow, setShow] = useState(true);
+  const [isShow, setShow] = useState(false);
+  const [isError, setError] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
+  //show Login Modal if no token
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      axios({
-        method: "get",
-        url: "http://localhost:4000/user",
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      fetchUser(token)
         .then((res) => {
           dispatch(
             setUser({
@@ -35,32 +34,26 @@ export default function Home() {
           setShow(false);
         })
         .catch((error) => {
+          localStorage.removeItem("token");
           if (error.response) {
-            console.error("Server Error:", error.response.status);
+            console.error("Server Error:", error.response);
           } else if (error.request) {
             console.error("Network Error:", error.request);
           } else {
             console.error("Error:", error.message);
           }
         });
+    } else {
+      setShow(true);
     }
   }, [user, dispatch]);
 
   async function loginHandle(username: string, password: string) {
-    const axiosBody = {
-      username: username,
-      password: password,
-    };
     try {
-      const response = await axios<ILogin>({
-        method: "post",
-        url: "http://localhost:4000/user/login",
-        data: axiosBody,
-      });
+      setLoading(true);
+      const response = await sendLoginCredentials(username, password);
+      setLoading(false);
       const token = response.data.token;
-      if (!token) {
-        return;
-      }
       localStorage.setItem("token", token);
       console.log("token:", token);
       dispatch(
@@ -70,9 +63,17 @@ export default function Home() {
           displayName: response.data.displayName,
         }),
       );
-    } catch (error) {
-      const err = error as AxiosError;
-      console.log(err.message);
+    } catch (err) {
+      setLoading(false);
+      setError(true);
+      const error = err as AxiosError;
+      if (error.response) {
+        console.error("Server Error:", error.response);
+      } else if (error.request) {
+        console.error("Network Error:", error.request);
+      } else {
+        console.error("Error:", error.message);
+      }
     }
   }
 
@@ -80,22 +81,13 @@ export default function Home() {
     username: string,
     password: string,
     displayName: string,
+    successRegisterHandle: () => void,
   ) {
-    const axiosBody = {
-      username: username,
-      password: password,
-      displayName: displayName,
-    };
     try {
-      const response = await axios<string>({
-        method: "post",
-        url: "http://localhost:4000/user/register",
-        data: axiosBody,
-      });
-      const userID = response.data;
-      if (!userID) {
-        return;
-      }
+      setLoading(true);
+      await sendRegistrationCredentials(username, password, displayName);
+      setLoading(false);
+      successRegisterHandle();
       dispatch(
         setUser({
           userID: "",
@@ -103,9 +95,17 @@ export default function Home() {
           displayName: "",
         }),
       );
-    } catch (error) {
-      const err = error as AxiosError;
-      console.log(err.message);
+    } catch (err) {
+      setLoading(false);
+      setError(true);
+      const error = err as AxiosError;
+      if (error.response) {
+        console.error("Server Error:", error.response);
+      } else if (error.request) {
+        console.error("Network Error:", error.request);
+      } else {
+        console.error("Error:", error.message);
+      }
     }
   }
 
@@ -116,7 +116,12 @@ export default function Home() {
         tailwindWidth={"w-[300px]"}
         tailwindHeight={"h-[400px]"}
       >
-        <Login onLogin={loginHandle} onRegister={registerHandle} />
+        <Login
+          onLogin={loginHandle}
+          onRegister={registerHandle}
+          onError={isError}
+          onLoading={isLoading}
+        />
       </Modal>
       <Navbar />
       <TabBar />
