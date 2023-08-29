@@ -6,7 +6,7 @@ export function getMessagesByRoomID(roomID: string) {
 
   return axiosInstance<IGetMessageByRoomID[]>({
     method: "get",
-    url: `http://localhost:4000/message/by-roomid?roomID=${roomID}`,
+    url: `/message/by-roomid?roomID=${roomID}`,
     headers: { Authorization: `Bearer ${token}` },
   });
 }

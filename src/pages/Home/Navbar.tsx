@@ -6,11 +6,11 @@ import { RootState } from "../../redux";
 import Icons from "../../components/Icon";
 import chatWhite from "../../assets/icons/chat-white.png";
 import chatRed from "../../assets/icons/chat-red.png";
-import friendsWhite from "../../assets/icons/friend-white.png";
-import friendsRed from "../../assets/icons/friend-red.png";
-import settingWhite from "../../assets/icons/setting-white.svg";
-import settingRed from "../../assets/icons/setting-red.svg";
 import { getUserPicByID } from "../../services/user.api";
+// import friendsWhite from "../../assets/icons/friend-white.png";
+// import friendsRed from "../../assets/icons/friend-red.png";
+// import settingWhite from "../../assets/icons/setting-white.svg";
+// import settingRed from "../../assets/icons/setting-red.svg";
 
 export default function Navbar() {
   const currentUser = useSelector((state: RootState) => state.user);
@@ -26,7 +26,7 @@ export default function Navbar() {
             dispatch(setTabBar(ETabBar.chat));
           }}
         />
-        <Icons
+        {/* <Icons
           icon={friendsWhite}
           hoverIcon={friendsRed}
           name="friendIcon"
@@ -34,7 +34,7 @@ export default function Navbar() {
             dispatch(setTabBar(ETabBar.friend));
           }}
         />
-        <Icons icon={settingWhite} hoverIcon={settingRed} name="settingIcon" />
+        <Icons icon={settingWhite} hoverIcon={settingRed} name="settingIcon" /> */}
       </div>
       <div className="m-2 flex flex-col">
         <img

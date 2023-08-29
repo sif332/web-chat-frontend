@@ -26,7 +26,7 @@ export default function ChatTab() {
         setRoomList(rooms);
       });
     }
-  }, [user.userID, isSuccess]);
+  }, [user, isSuccess]);
 
   async function createRoomHandle(roomName: string) {
     try {

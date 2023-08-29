@@ -8,7 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import { setUser } from "../../redux/userSlice";
 import { AxiosError } from "axios";
-import { sendLoginCredentials, sendRegistrationCredentials, fetchUser } from "../../services/user.api";
+import {
+  sendLoginCredentials,
+  sendRegistrationCredentials,
+  fetchUser,
+} from "../../services/user.api";
+import { webChatSocket } from "../../services/socket.io";
 
 export default function Home() {
   const user = useSelector((state: RootState) => state.user);
@@ -22,6 +27,7 @@ export default function Home() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
+      webChatSocket.connect();
       fetchUser(token)
         .then((res) => {
           dispatch(
@@ -48,14 +54,17 @@ export default function Home() {
     }
   }, [user, dispatch]);
 
-  async function loginHandle(username: string, password: string) {
+  async function loginHandle(
+    username: string,
+    password: string,
+    successLoginHandle: () => void,
+  ) {
     try {
       setLoading(true);
       const response = await sendLoginCredentials(username, password);
       setLoading(false);
       const token = response.data.token;
       localStorage.setItem("token", token);
-      console.log("token:", token);
       dispatch(
         setUser({
           userID: response.data.userID,
@@ -63,6 +72,7 @@ export default function Home() {
           displayName: response.data.displayName,
         }),
       );
+      successLoginHandle();
     } catch (err) {
       setLoading(false);
       setError(true);
@@ -87,14 +97,8 @@ export default function Home() {
       setLoading(true);
       await sendRegistrationCredentials(username, password, displayName);
       setLoading(false);
+      //trigger Login Modal to switch from register mode to login mode
       successRegisterHandle();
-      dispatch(
-        setUser({
-          userID: "",
-          username: "",
-          displayName: "",
-        }),
-      );
     } catch (err) {
       setLoading(false);
       setError(true);

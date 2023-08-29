@@ -10,27 +10,12 @@ export interface IUser {
   displayName: string;
 }
 
-export interface IUserRoom {
-  userID: string;
-  rooms: string[];
-}
-
 export interface IMessage {
   userID: string;
   username: string;
   profilePic: string;
   time: string;
   message: string;
-}
-
-export enum EUserIDs {
-  XaipherSK = "user001",
-  Settawut = "user002",
-  Seletinar = "user003",
-}
-
-export interface IUserDatabase extends IUser {
-  userProfile: string;
 }
 
 export interface ILogin {

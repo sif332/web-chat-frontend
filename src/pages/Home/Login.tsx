@@ -1,7 +1,11 @@
 import React, { useState, useRef } from "react";
 
 interface IProps {
-  onLogin: (username: string, password: string) => void;
+  onLogin: (
+    username: string,
+    password: string,
+    successLoginHandle: () => void,
+  ) => void;
   onRegister: (
     username: string,
     password: string,
@@ -27,6 +31,12 @@ export default function Login({
   const inputUsername = useRef<HTMLInputElement>(null);
   const inputPassword = useRef<HTMLInputElement>(null);
   const inputDisplayName = useRef<HTMLInputElement>(null);
+
+  function successLoginHandle() {
+    inputUsername.current!.value = "";
+    inputPassword.current!.value = "";
+    setSelected(null);
+  }
 
   function successRegisterHandle() {
     inputUsername.current!.value = "";
@@ -112,7 +122,11 @@ export default function Login({
         onClick={() => {
           if (isSelected === EButton.Login) {
             if (inputUsername.current?.value && inputPassword.current?.value) {
-              onLogin(inputUsername.current.value, inputPassword.current.value);
+              onLogin(
+                inputUsername.current.value,
+                inputPassword.current.value,
+                successLoginHandle,
+              );
               // resetState();
               return;
             }

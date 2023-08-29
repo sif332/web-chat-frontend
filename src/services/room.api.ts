@@ -37,7 +37,7 @@ export function createRoom(roomName: string) {
   const token = localStorage.getItem("token");
   return axiosInstance({
     method: "post",
-    url: `http://localhost:4000/room/create?roomName=${roomName}`,
+    url: `/room/create?roomName=${roomName}`,
     headers: { Authorization: `Bearer ${token}` },
   });
 }
@@ -47,7 +47,7 @@ export function joinRoom(roomID: string) {
 
   return axiosInstance({
     method: "post",
-    url: `http://localhost:4000/room/join?roomID=${roomID}`,
+    url: `/room/join?roomID=${roomID}`,
     headers: { Authorization: `Bearer ${token}` },
   });
 }
