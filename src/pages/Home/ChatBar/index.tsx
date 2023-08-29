@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux";
 import { IGetMessageByRoomID, IMessage, IRoom } from "../../../types";
 import defaultProfile from "../../../assets/icons/user.png";
-import { webChatSocket } from "../../../services/socket.io";
+import { webChatSocket } from "../../../libs/socket.io";
 import { setUser } from "../../../redux/userSlice";
 
 interface IProps {

@@ -18,7 +18,6 @@ export async function getRoomListByUserID() {
         roomPic: defaultProfile,
       };
     });
-    console.log(roomList);
     return roomList;
   } catch (err) {
     const error = err as AxiosError;

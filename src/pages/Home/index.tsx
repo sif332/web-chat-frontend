@@ -13,7 +13,7 @@ import {
   sendRegistrationCredentials,
   fetchUser,
 } from "../../services/user.api";
-import { webChatSocket } from "../../services/socket.io";
+import { webChatSocket } from "../../libs/socket.io";
 
 export default function Home() {
   const user = useSelector((state: RootState) => state.user);
@@ -26,7 +26,7 @@ export default function Home() {
   //show Login Modal if no token
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (token !== null && token !== undefined && token !== "undefined") {
       webChatSocket.connect();
       fetchUser(token)
         .then((res) => {
@@ -50,6 +50,7 @@ export default function Home() {
           }
         });
     } else {
+      localStorage.removeItem("token");
       setShow(true);
     }
   }, [user, dispatch]);
