@@ -5,4 +5,5 @@ const baseURL =
 
 export const webChatSocket = io(baseURL!, {
   autoConnect: false,
+  transports: ["websocket"]
 });
