@@ -82,7 +82,7 @@ export default function Login({ onLogin, onRegister }: IProps) {
           ref={inputUsername}
         />
         <input
-          type="text"
+          type="password"
           className="bg-[#333333] p-4 text-center focus:outline-0"
           placeholder="Password"
           ref={inputPassword}
