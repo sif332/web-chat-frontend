@@ -20,8 +20,6 @@ export default function Home() {
   const currentRoom = useSelector((state: RootState) => state.room.currentRoom);
   const dispatch = useDispatch();
   const [isShow, setShow] = useState(false);
-  const [isError, setError] = useState(false);
-  const [isLoading, setLoading] = useState(false);
 
   //show Login Modal if no token
   useEffect(() => {
@@ -59,6 +57,8 @@ export default function Home() {
     username: string,
     password: string,
     successLoginHandle: () => void,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setError: React.Dispatch<React.SetStateAction<boolean>>,
   ) {
     try {
       setLoading(true);
@@ -93,6 +93,8 @@ export default function Home() {
     password: string,
     displayName: string,
     successRegisterHandle: () => void,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setError: React.Dispatch<React.SetStateAction<boolean>>,
   ) {
     try {
       setLoading(true);
@@ -121,12 +123,7 @@ export default function Home() {
         tailwindWidth={"w-[300px]"}
         tailwindHeight={"h-[400px]"}
       >
-        <Login
-          onLogin={loginHandle}
-          onRegister={registerHandle}
-          onError={isError}
-          onLoading={isLoading}
-        />
+        <Login onLogin={loginHandle} onRegister={registerHandle} />
       </Modal>
       <Navbar />
       <TabBar />

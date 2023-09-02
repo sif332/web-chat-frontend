@@ -3,8 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { regular, solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 interface IProps {
-  onJoin: (roomID: string) => void;
-  onCreate: (roomName: string) => void;
+  onJoin: (
+    roomID: string,
+    successHandle: () => void,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setError: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => void;
+  onCreate: (
+    roomName: string,
+    successHandle: () => void,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setError: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => void;
   onClose: () => void;
 }
 
@@ -17,10 +27,15 @@ export default function AddRoomModal({ onJoin, onCreate, onClose }: IProps) {
   const [isSelected, setSelected] = useState<EButton | null>(null);
   const [isHover, setHover] = useState(false);
   const inputField = useRef<HTMLInputElement>(null);
+  const [isLoading, setLoading] = useState(false);
+  const [isError, setError] = useState(false);
 
-  function resetState() {
+  function successHandle() {
     inputField.current!.value = "";
     setSelected(null);
+    setHover(false);
+    setError(false);
+    onClose();
   }
 
   return (
@@ -30,8 +45,7 @@ export default function AddRoomModal({ onJoin, onCreate, onClose }: IProps) {
         onMouseOver={() => setHover(true)}
         onMouseOut={() => setHover(false)}
         onClick={() => {
-          resetState();
-          onClose();
+          successHandle();
         }}
         icon={isHover ? solid("circle-xmark") : regular("circle-xmark")}
       />
@@ -52,6 +66,11 @@ export default function AddRoomModal({ onJoin, onCreate, onClose }: IProps) {
           className="bg-[#333333] p-4 text-center focus:outline-0"
           ref={inputField}
         />
+        <p className={`px-2 text-center text-red-500 ${!isError && "hidden"}`}>
+          {isSelected === EButton.CreateRoom
+            ? "Room existed"
+            : "RoomID not existed"}
+        </p>
       </div>
 
       <button
@@ -60,19 +79,23 @@ export default function AddRoomModal({ onJoin, onCreate, onClose }: IProps) {
             ? "translate-y-[100%]"
             : "translate-y-[-100%]"
         } ${isSelected === EButton.CreateRoom && "hidden"}`}
+        disabled={isLoading}
         onClick={() => {
           if (isSelected === EButton.JoinRoom) {
             if (inputField.current?.value) {
-              onJoin(inputField.current.value);
-              resetState();
-              onClose();
+              onJoin(
+                inputField.current.value,
+                successHandle,
+                setLoading,
+                setError,
+              );
               return;
             }
           }
           setSelected(EButton.JoinRoom);
         }}
       >
-        Join Room
+        {isLoading ? "Loading..." : "Join Room"}
       </button>
       <button
         className={`absolute top-1/2 h-[50px] w-[120px] bg-green-500 p-2 text-white transition-transform duration-300 ease-out ${
@@ -80,19 +103,23 @@ export default function AddRoomModal({ onJoin, onCreate, onClose }: IProps) {
             ? "translate-y-[100%]"
             : "translate-y-[50%]"
         } ${isSelected === EButton.JoinRoom && "hidden"} `}
+        disabled={isLoading}
         onClick={() => {
           if (isSelected === EButton.CreateRoom) {
             if (inputField.current?.value) {
-              onCreate(inputField.current?.value);
-              resetState();
-              onClose();
+              onCreate(
+                inputField.current?.value,
+                successHandle,
+                setLoading,
+                setError,
+              );
               return;
             }
           }
           setSelected(EButton.CreateRoom);
         }}
       >
-        Create Room
+        {isLoading ? "Loading..." : "Create Room"}
       </button>
     </div>
   );

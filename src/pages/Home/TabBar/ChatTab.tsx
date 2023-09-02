@@ -28,11 +28,21 @@ export default function ChatTab() {
     }
   }, [user, isSuccess]);
 
-  async function createRoomHandle(roomName: string) {
+  async function createRoomHandle(
+    roomName: string,
+    successHandle: () => void,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setError: React.Dispatch<React.SetStateAction<boolean>>,
+  ) {
     try {
+      setLoading(true);
       await createRoom(roomName);
+      setLoading(false);
+      successHandle();
       setSuccess((prev) => !prev);
     } catch (err) {
+      setLoading(false);
+      setError(true);
       const error = err as AxiosError;
       if (error.response) {
         console.error("Server Error:", error.response);
@@ -44,11 +54,21 @@ export default function ChatTab() {
     }
   }
 
-  async function joinRoomHandle(roomID: string) {
+  async function joinRoomHandle(
+    roomID: string,
+    successHandle: () => void,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setError: React.Dispatch<React.SetStateAction<boolean>>,
+  ) {
     try {
+      setLoading(true);
       await joinRoom(roomID);
+      setLoading(false);
+      successHandle();
       setSuccess((prev) => !prev);
     } catch (err) {
+      setLoading(false);
+      setError(true);
       const error = err as AxiosError;
       if (error.response) {
         console.error("Server Error:", error.response);
