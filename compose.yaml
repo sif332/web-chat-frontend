@@ -6,10 +6,8 @@ services:
     ports:
       - "80"
     networks:
-      frontend:
-        ipv4_address: 172.1.0.254
-    deploy:
-      replicas: 1
+      webchat:
+        ipv4_address: 172.2.0.248
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -18,11 +16,9 @@ services:
       - TUNNEL_TOKEN=${CLOUDFLARE_TOKEN}
     command: tunnel --no-autoupdate run
     networks:
-      frontend:
-
+      webchat:
+        ipv4_address: 172.2.0.249
 
 networks:
-  frontend:
-    ipam:
-      config:
-        - subnet: 172.1.0.0/24
+  webchat:
+    external: true
